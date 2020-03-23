@@ -13,6 +13,6 @@
     <webApplication location="${project.name}.war" contextRoot="/" />
 
     <!-- This is the keystore that will be used by SSL and by JWT. -->
-    <keyStore id="defaultKeyStore" location="public.jks" type="JKS" password="atbash" />
+    <keyStore id="defaultKeyStore" location="keystore.jceks" type="JCEKS" password="secret" />
 
 </server>

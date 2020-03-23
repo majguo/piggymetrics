@@ -6,6 +6,27 @@ var global = {
 };
 
 /**
+ * Request login token for login or registering new user
+ */
+
+function requestLoginToken() {
+
+	var token = "";
+
+	$.ajax({
+		url: 'https://localhost:9543/auth/login',
+		datatype: 'json',
+		type: 'get',
+		async: false,
+		success: function (data) {
+			token = data.login_token;
+		}
+	});
+
+	return token;
+}
+
+/**
  * Oauth2
  */
 

@@ -28,3 +28,6 @@ target
 .settings
 *.versionsBackup
 .classpath
+auth-service/src/main/liberty/config/resources/security/keystore.jceks
+frontend-ui/src/main/liberty/config/resources/security/keystore.jceks
+shared-keystore/src/main/resources/keystore.jceks

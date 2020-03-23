@@ -2,13 +2,13 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <parent>
     <groupId>com.mp.piggymetrics</groupId>
     <artifactId>piggymetrics</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>frontend-ui</artifactId>
+  <artifactId>auth-service</artifactId>
   <packaging>war</packaging>
 
   <properties>
@@ -17,7 +17,7 @@
     <failOnMissingWebXml>false</failOnMissingWebXml>
     <maven.compiler.source>1.8</maven.compiler.source>
     <openliberty.version>[19.0.0.9,)</openliberty.version>
-    <final.name>frontend-ui</final.name>
+    <final.name>auth-service</final.name>
   </properties>
 
   <dependencies>
@@ -26,6 +26,13 @@
       <artifactId>microprofile</artifactId>
       <version>3.2</version>
       <type>pom</type>
+      <scope>provided</scope>
+    </dependency>
+    <!-- Liberty helper classes that can be used to build JWTs. -->
+    <dependency>
+      <groupId>com.ibm.websphere.appserver.api</groupId>
+      <artifactId>com.ibm.websphere.appserver.api.jwt</artifactId>
+      <version>1.0.16</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -37,7 +44,7 @@
   </dependencies>
 
   <build>
-    <finalName>frontend-ui</finalName>
+    <finalName>auth-service</finalName>
   </build>
   <profiles>
     <profile>
@@ -73,6 +80,7 @@
               </execution>
             </executions>
 	        </plugin>
+
           <plugin>
             <groupId>io.openliberty.tools</groupId>
             <artifactId>liberty-maven-plugin</artifactId>
@@ -97,7 +105,7 @@
               <serverName>${final.name}</serverName>
               <bootstrapProperties>
                 <project.name>${final.name}</project.name>
-                <jwt.issuer>https://server.example.com</jwt.issuer>
+                <jwt.issuer>${jwt.issuer}</jwt.issuer>
               </bootstrapProperties>
             </configuration>
           </plugin>
