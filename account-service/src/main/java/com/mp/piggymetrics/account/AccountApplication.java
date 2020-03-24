@@ -1,4 +1,4 @@
-package com.mp.piggymetrics.account.service;
+package com.mp.piggymetrics.account;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -7,5 +7,5 @@ import javax.ws.rs.core.Application;
  *
  */
 @ApplicationPath("/accounts")
-public class AccountserviceRestApplication extends Application {
+public class AccountApplication extends Application {
 }

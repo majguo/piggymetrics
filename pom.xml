@@ -10,6 +10,7 @@
 	<properties>
 		<jwt.issuer>http://piggymetrics.mp.com</jwt.issuer>
     	<version.shared.keystore>1.0-SNAPSHOT</version.shared.keystore>
+		<jnosql.version>0.0.9</jnosql.version>
 	</properties>
 
 	<modules>
