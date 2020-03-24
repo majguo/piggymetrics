@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="${project.name}">
+
+    <featureManager>
+        <feature>jaxrs-2.1</feature>
+        <feature>ssl-1.0</feature>
+        <feature>jwt-1.0</feature>
+        <feature>mpJwt-1.1</feature>
+    </featureManager>
+
+    <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="9380"
+                  httpsPort="9743"/>
+
+    <webApplication location="${project.name}.war" contextRoot="/"/>
+    <mpMetrics authentication="false"/>
+
+    <cors domain="/statistics"
+          allowedOrigins="*"
+          allowedMethods="GET, DELETE, POST, PUT"
+          allowedHeaders="Accept, Content-Type, Authorization"
+          maxAge="3600" />
+
+    <!-- This is the keystore that will be used by SSL and by JWT. -->
+    <keyStore id="defaultKeyStore" location="keystore.jceks" type="JCEKS" password="secret" />
+
+    <!-- The MP JWT configuration that injects the caller's JWT into a ResourceScoped bean for inspection. -->
+    <mpJwt id="jwtUserConsumer" keyName="default" audiences="piggymetrics" issuer="${jwt.issuer}"/>
+
+</server>
