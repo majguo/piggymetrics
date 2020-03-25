@@ -3,8 +3,11 @@
 
     <featureManager>
         <feature>jaxrs-2.1</feature>
+        <feature>jsonb-1.0</feature>
         <feature>ssl-1.0</feature>
         <feature>jwt-1.0</feature>
+        <feature>mpJwt-1.1</feature>
+        <feature>mpConfig-1.3</feature>
     </featureManager>
 
     <httpEndpoint id="defaultHttpEndpoint"
@@ -14,8 +17,6 @@
     <webApplication location="${project.name}.war" contextRoot="/" />
     <mpMetrics authentication="false"/>
 
-    <!-- This configuration allows cross-origin HTTP requests, such
-         as those from the front-end component (different port). -->
     <cors domain="/auth"
           allowedOrigins="*"
           allowedMethods="GET, DELETE, POST, PUT"
@@ -29,6 +30,6 @@
 	     in expiration time from the JWT builder above.  The resulting JWT would be MP JWT 
          compliant if the code using it adds valid group and user names. The JWT is signed 
     	 using the RS256 algorithm, using the default keystore defined above. -->
-    <jwtBuilder id="jwtAuthLoginBuilder" issuer="${jwt.issuer}" expiry="1h"
+    <jwtBuilder id="jwtAuthUserBuilder" issuer="${jwt.issuer}" expiry="1h"
                 keyAlias="default" audiences="piggymetrics" jti="true"/>
 </server>
