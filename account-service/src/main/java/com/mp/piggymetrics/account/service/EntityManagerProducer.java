@@ -12,7 +12,7 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class EntityManagerProducer {
 
-    private static final String DATABASE = "todos";
+    private static final String DATABASE = "accounts_db";
 
     @Inject
     @ConfigurationUnit(name = "document")
