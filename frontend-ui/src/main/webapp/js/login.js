@@ -123,32 +123,6 @@ function logout() {
     location.reload();
 }
 
-/**
- * Demo
- */
-
-$(".demobutton").bind("click", function(){
-    $.ajax({
-        url: 'accounts/demo',
-        datatype: 'json',
-        type: 'get',
-        async: false,
-        success: function (data) {
-
-            global.savePermit = false;
-            initAccount(data);
-
-            var userAvatar = $("<img />").attr("src","images/userpic.jpg");
-            $(userAvatar).load(function() {
-                setTimeout(initGreetingPage, 500);
-            });
-        },
-        error: function () {
-            alert("Something went wrong. Please, try again");
-        }
-    });
-});
-
 $("#skipmail").bind("click", function(){
     $("#lastlogo").show();
     setTimeout(initGreetingPage, 300);
