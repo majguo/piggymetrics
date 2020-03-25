@@ -31,7 +31,15 @@ public class AuthResource {
   @POST
   @Path("/login")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response getLoginJwt(User user) {
+  public Response loginUser(User user) {
+    User dbUser = userManager.get(user.getUsername());
+    if (null == dbUser) {
+      return Response.status(Status.BAD_REQUEST).entity("User not found!").build();
+    }
+    if (!dbUser.getPassword().equals(user.getPassword())) {
+      return Response.status(Status.BAD_REQUEST).entity("Password incorrect!").build();
+    }
+
     String jwtTokenString = null;
     try {
       jwtTokenString = JwtBuilder.create("jwtAuthUserBuilder").claim(Claims.SUBJECT, "authenticated")
