@@ -5,6 +5,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import javax.annotation.security.RolesAllowed;
+
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import com.mp.piggymetrics.account.domain.Account;
 import com.mp.piggymetrics.account.domain.User;
@@ -16,10 +19,15 @@ public class AccountResource {
     @Inject
     private AccountManager accountManager;
 
+    @Inject
+    private JsonWebToken jwtPrincipal;
+
     @GET
+    @Path("current")
+    @RolesAllowed({ "user" })
     @Produces(MediaType.APPLICATION_JSON)
-    public Response all() {
-        return Response.ok(accountManager.getAll()).build();
+    public Response getCurrent() {
+        return Response.ok(accountManager.get(this.jwtPrincipal.getName())).build();
     }
 
     @GET
