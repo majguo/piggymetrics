@@ -1,4 +1,4 @@
-# Piggy Metrics
+# Piggy Metrics on Open Liberty
 ## Description
 It's a demo application for Open Liberty MicroProfile, which references the following open-source projects:
  - [`piggymetrics`](https://github.com/sqshq/piggymetrics): front-end and its business logics 
