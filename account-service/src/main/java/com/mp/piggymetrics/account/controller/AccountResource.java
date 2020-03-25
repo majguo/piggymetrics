@@ -34,7 +34,7 @@ public class AccountResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(User user) {
     	Account savedAccount = accountManager.add(user);
-        System.out.println(savedAccount.getName());
+        
         return Response.created(
                 UriBuilder.fromResource(this.getClass()).path(String.valueOf(savedAccount.getName())).build())
                 .build();

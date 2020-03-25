@@ -25,6 +25,8 @@ public class AccountManagerImpl implements AccountManager {
 
     @Override
     public Account add(User user) {
+        //TODO: Call auth-service to create user
+
     	Saving saving = new Saving();
 		saving.setAmount(new BigDecimal(0));
 		saving.setCurrency(Currency.getDefault());
@@ -35,15 +37,39 @@ public class AccountManagerImpl implements AccountManager {
 		Account account = new Account();
 		account.setName(user.getUsername());
 		account.setLastSeen(new Date());
-		account.setSaving(saving);
+        account.setSaving(saving);
+        
+        repository.save(account);
 
-		return repository.save(account);
+        System.out.println(account.getName());
+
+		return account;
+    }
+
+    @Override
+    public void save(String name, Account update) {
+        List<Account> accounts = repository.findByName(name);
+		if (accounts.size() != 1) {
+			return;
+		}
+		
+		Account account = accounts.get(0);
+		account.setIncomes(update.getIncomes());
+		account.setExpenses(update.getExpenses());
+		account.setSaving(update.getSaving());
+		account.setNote(update.getNote());
+		account.setLastSeen(new Date());
+		repository.save(account);
+
+		System.out.printf("account %s changes has been saved\n", name);
+
+		//TODO: Call statistics-service to update user's statistics
     }
 
     @Override
     public Account get(String name) {
         List<Account> accounts = repository.findByName(name);
-        return accounts.isEmpty() ? null : accounts.get(0);
+        return accounts.size() != 1 ? null : accounts.get(0);
     }
 
     @Override

@@ -7,7 +7,9 @@ import com.mp.piggymetrics.account.domain.User;
 
 public interface AccountManager {
 
-	Account add(User user);
+    Account add(User user);
+    
+    void save(String name, Account update);
 
 	Account get(String name);
 
