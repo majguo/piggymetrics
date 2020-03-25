@@ -28,13 +28,14 @@ public class AuthResource {
   @Inject
   private UserManager userManager;
 
+  @POST
   @Path("/login")
-  @GET
-  public Response getLoginJwt() {
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response getLoginJwt(User user) {
     String jwtTokenString = null;
     try {
-      jwtTokenString = JwtBuilder.create("jwtAuthUserBuilder").claim(Claims.SUBJECT, "unauthenticated")
-          .claim("upn", "unauthenticated") /* MP-JWT defined subject claim */
+      jwtTokenString = JwtBuilder.create("jwtAuthUserBuilder").claim(Claims.SUBJECT, "authenticated")
+          .claim("upn", user.getUsername()) /* MP-JWT defined subject claim */
           .claim("groups", "user") /* MP-JWT defined group, seems Liberty makes an array from a comma separated list */
           .buildJwt().compact();
     } catch (Throwable t) {
@@ -42,7 +43,7 @@ public class AuthResource {
     }
 
     JsonObjectBuilder builder = Json.createObjectBuilder();
-    builder.add("login_token", jwtTokenString);
+    builder.add("access_token", jwtTokenString);
 
     return Response.ok(builder.build()).header(HttpHeaders.AUTHORIZATION, "Bearer " + jwtTokenString)
         .header("Access-Control-Expose-Headers", HttpHeaders.AUTHORIZATION).build();
