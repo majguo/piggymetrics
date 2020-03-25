@@ -54,7 +54,7 @@ function getCurrentAccount() {
 
 	if (token) {
 		$.ajax({
-			url: 'accounts/current',
+			url: 'https://localhost:9643/accounts/current',
 			datatype: 'json',
 			type: 'get',
 			headers: {'Authorization': 'Bearer ' + token},
