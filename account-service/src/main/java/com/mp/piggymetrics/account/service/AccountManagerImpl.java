@@ -41,7 +41,7 @@ public class AccountManagerImpl implements AccountManager {
         
         repository.save(account);
 
-        System.out.println(account.getName());
+        System.out.println(String.format("new account has been created: %s", account.getName()));
 
 		return account;
     }
@@ -61,7 +61,7 @@ public class AccountManagerImpl implements AccountManager {
 		account.setLastSeen(new Date());
 		repository.save(account);
 
-		System.out.printf("account %s changes has been saved\n", name);
+		System.out.println(String.format("account %s changes has been saved\n", name));
 
 		//TODO: Call statistics-service to update user's statistics
     }
