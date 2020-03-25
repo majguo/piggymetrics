@@ -6,27 +6,6 @@ var global = {
 };
 
 /**
- * Request login token for login or registering new user
- */
-
-function requestLoginToken() {
-
-	var token = "";
-
-	$.ajax({
-		url: 'https://localhost:9543/auth/login',
-		datatype: 'json',
-		type: 'get',
-		async: false,
-		success: function (data) {
-			token = data.login_token;
-		}
-	});
-
-	return token;
-}
-
-/**
  * Oauth2
  */
 
@@ -35,16 +14,14 @@ function requestOauthToken(username, password) {
 	var success = false;
 
 	$.ajax({
-		url: 'uaa/oauth/token',
+		url: 'https://localhost:9543/auth/login',
 		datatype: 'json',
 		type: 'post',
 		headers: {'Authorization': 'Basic YnJvd3Nlcjo='},
 		async: false,
 		data: {
-			scope: 'ui',
 			username: username,
-			password: password,
-			grant_type: 'password'
+			password: password
 		},
 		success: function (data) {
 			localStorage.setItem('token', data.access_token);

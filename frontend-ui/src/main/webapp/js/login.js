@@ -14,35 +14,32 @@ $('#signup').submit(function(e) {
         return;
     }
 
-    var token = requestLoginToken();
-    if (token) {
-        $.ajax({
-            url: 'accounts/',
-            datatype: 'json',
-            type: "post",
-            contentType: "application/json",
-            data: JSON.stringify({
-                username: username,
-                password: password
-            }),
-            success: function (data) {
+    $.ajax({
+        url: 'https://localhost:9643/accounts/',
+        datatype: 'json',
+        type: "post",
+        contentType: "application/json",
+        data: JSON.stringify({
+            username: username,
+            password: password
+        }),
+        success: function (data) {
 
-                requestOauthToken(username, password);
-                initAccount(getCurrentAccount());
+            requestOauthToken(username, password);
+            initAccount(getCurrentAccount());
 
-                $('#registrationforms, .fliptext, #createaccount').fadeOut(300);
-                $('#mailform').fadeIn(500);
-                setTimeout(function(){ $("#backmailform").focus() }, 10);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                if (xhr.status == 400) {
-                    alert("Sorry, account with the same name already exists.");
-                } else {
-                    alert("An error during account creation. Please, try again.");
-                }
+            $('#registrationforms, .fliptext, #createaccount').fadeOut(300);
+            $('#mailform').fadeIn(500);
+            setTimeout(function(){ $("#backmailform").focus() }, 10);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            if (xhr.status == 400) {
+                alert("Sorry, account with the same name already exists.");
+            } else {
+                alert("An error during account creation. Please, try again.");
             }
-        });
-    }
+        }
+    });
 });
 
 /**
