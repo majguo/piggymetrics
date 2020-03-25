@@ -16,13 +16,13 @@ function requestOauthToken(username, password) {
 	$.ajax({
 		url: 'https://localhost:9543/auth/login',
 		datatype: 'json',
-		type: 'post',
-		headers: {'Authorization': 'Basic YnJvd3Nlcjo='},
-		async: false,
-		data: {
+        type: 'post',
+        contentType: 'application/json',
+        data: JSON.stringify({
 			username: username,
 			password: password
-		},
+		}),
+		async: false,
 		success: function (data) {
 			localStorage.setItem('token', data.access_token);
 			success = true;
