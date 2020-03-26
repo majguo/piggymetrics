@@ -7,7 +7,6 @@ import org.jnosql.artemis.Id;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,7 +16,7 @@ public class Account {
 	private String name;
 	
 	@Column
-	private Date lastSeen;
+	private String lastSeen;
 	
 	@Valid
 	@Column
@@ -47,11 +46,11 @@ public class Account {
 		this.name = name;
 	}
 
-	public Date getLastSeen() {
+	public String getLastSeen() {
 		return lastSeen;
 	}
 
-	public void setLastSeen(Date lastSeen) {
+	public void setLastSeen(String lastSeen) {
 		this.lastSeen = lastSeen;
 	}
 

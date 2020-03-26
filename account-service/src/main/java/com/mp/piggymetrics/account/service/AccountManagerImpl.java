@@ -13,7 +13,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @ApplicationScoped
@@ -36,7 +38,7 @@ public class AccountManagerImpl implements AccountManager {
 
 		Account account = new Account();
 		account.setName(user.getUsername());
-		account.setLastSeen(new Date());
+		account.setLastSeen(ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT));
         account.setSaving(saving);
         
         repository.save(account);
@@ -58,7 +60,7 @@ public class AccountManagerImpl implements AccountManager {
 		account.setExpenses(update.getExpenses());
 		account.setSaving(update.getSaving());
 		account.setNote(update.getNote());
-		account.setLastSeen(new Date());
+		account.setLastSeen(ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT));
 		repository.save(account);
 
 		System.out.println(String.format("account %s changes has been saved\n", name));
