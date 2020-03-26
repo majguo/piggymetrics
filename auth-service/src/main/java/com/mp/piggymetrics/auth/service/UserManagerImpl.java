@@ -25,8 +25,11 @@ public class UserManagerImpl implements UserManager {
 		if (!users.isEmpty()) {
 			return null;
 		}
-
-		// TODO: encoded password for security
+		
+		// TODO: role should be set by account-service when creating new account
+		// TODO: define role Enum to encapsulate constant roles
+		user.setRole("user");
+		// TODO: encode password for security
         repository.save(user);
 
         System.out.println(String.format("new user has been created: %s", user.getUsername()));
@@ -38,4 +41,9 @@ public class UserManagerImpl implements UserManager {
         List<User> users = repository.findByUsername(name);
         return users.size() != 1 ? null : users.get(0);
     }
+
+	@Override
+	public List<User> getAll() {
+		return repository.findAll();
+	}
 }

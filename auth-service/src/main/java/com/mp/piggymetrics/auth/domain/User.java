@@ -19,6 +19,10 @@ public class User {
 	@Size(min = 6, max = 40)
 	@Column
 	private String password;
+	
+	@NotNull
+	@Column
+	private String role;
 
 	public User() {
 		
@@ -38,5 +42,13 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

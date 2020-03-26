@@ -26,10 +26,13 @@
     <!-- This is the keystore that will be used by SSL and by JWT. -->
     <keyStore id="defaultKeyStore" location="keystore.jceks" type="JCEKS" password="secret" />
 
-    <!-- This JWT builder is used to build JWT for the logged-in user.  It differs only 
-	     in expiration time from the JWT builder above.  The resulting JWT would be MP JWT 
-         compliant if the code using it adds valid group and user names. The JWT is signed 
-    	 using the RS256 algorithm, using the default keystore defined above. -->
+	<!-- This JWT builder is used to build JWT for the logged-in user. The resulting 
+		JWT would be MP JWT compliant if the code using it adds valid group and user 
+		names. The JWT is signed using the RS256 algorithm, using the default keystore 
+		defined above. -->
     <jwtBuilder id="jwtAuthUserBuilder" issuer="${jwt.issuer}" expiry="1h"
                 keyAlias="default" audiences="piggymetrics" jti="true"/>
+                
+    <!-- The MP JWT configuration that injects the caller's JWT into a ResourceScoped bean for inspection. -->
+    <mpJwt id="jwtUserConsumer" keyName="default" audiences="piggymetrics" issuer="${jwt.issuer}"/>
 </server>

@@ -15,6 +15,9 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import javax.json.Json;
 import javax.json.JsonObjectBuilder;
+import javax.annotation.security.RolesAllowed;
+
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 /**
  * The AuthResource is responsible for providing JWTs (users-token) to the
@@ -27,6 +30,9 @@ public class AuthResource {
 
   @Inject
   private UserManager userManager;
+  
+  @Inject
+  private JsonWebToken jwtPrincipal;
 
   @POST
   @Path("/login")
@@ -37,14 +43,14 @@ public class AuthResource {
       return Response.status(Status.BAD_REQUEST).entity("User not found!").build();
     }
     if (!dbUser.getPassword().equals(user.getPassword())) {
-      return Response.status(Status.BAD_REQUEST).entity("Password incorrect!").build();
+      return Response.status(Status.FORBIDDEN).entity("Password incorrect!").build();
     }
 
     String jwtTokenString = null;
     try {
       jwtTokenString = JwtBuilder.create("jwtAuthUserBuilder").claim(Claims.SUBJECT, "authenticated")
-          .claim("upn", user.getUsername()) /* MP-JWT defined subject claim */
-          .claim("groups", "user") /* MP-JWT defined group, seems Liberty makes an array from a comma separated list */
+          .claim("upn", dbUser.getUsername()) /* MP-JWT defined subject claim */
+          .claim("groups", dbUser.getRole()) /* MP-JWT defined group, seems Liberty makes an array from a comma separated list */
           .buildJwt().compact();
     } catch (Throwable t) {
       return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erorr building authorization token").build();
@@ -59,10 +65,21 @@ public class AuthResource {
 
   @GET
   @Path("users/{name}")
+  @RolesAllowed({ "user", "admin" })
   @Produces(MediaType.APPLICATION_JSON)
   public Response get(@PathParam("name") String name) {
-    User user = userManager.get(name);
-    return Response.ok(user).build();
+    if (this.jwtPrincipal.getGroups().contains("admin") || this.jwtPrincipal.getName().equals(name)) {
+    	return Response.ok(userManager.get(name)).build();
+	}
+	return Response.status(Status.UNAUTHORIZED).entity("No permission granted to view other user!").build();
+  }
+  
+  @GET
+  @Path("users")
+  @RolesAllowed({ "admin" })
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getAll(@PathParam("name") String name) {
+    return Response.ok(userManager.getAll()).build();
   }
 
   @POST
