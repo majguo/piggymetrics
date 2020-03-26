@@ -868,7 +868,7 @@ function launchStatistic() {
 function jsonDataSave() {
     if (global.savePermit) {
         $.ajax({
-            url: 'accounts/current',
+            url: 'https://localhost:9643/accounts/current',
             datatype: 'json',
             type: "put",
             contentType: "application/json",
