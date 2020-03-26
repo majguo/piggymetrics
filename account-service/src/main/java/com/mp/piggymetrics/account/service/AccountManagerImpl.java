@@ -63,7 +63,7 @@ public class AccountManagerImpl implements AccountManager {
 		account.setLastSeen(ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT));
 		repository.save(account);
 
-		System.out.println(String.format("account %s changes has been saved\n", name));
+		System.out.println(String.format("account %s changes has been saved", name));
 
 		//TODO: Call statistics-service to update user's statistics
     }

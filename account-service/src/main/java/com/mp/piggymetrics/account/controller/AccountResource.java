@@ -31,6 +31,15 @@ public class AccountResource {
         return Response.ok(accountManager.get(this.jwtPrincipal.getName())).build();
     }
     
+    @PUT
+    @Path("current")
+    @RolesAllowed({ "user", "admin" })
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateCurrent(Account update) {
+    	accountManager.save(this.jwtPrincipal.getName(), update);
+        return Response.ok().build();
+    }
+    
     @GET
     @RolesAllowed({ "admin" })
     @Produces(MediaType.APPLICATION_JSON)
