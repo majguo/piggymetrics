@@ -3,7 +3,7 @@ package com.mp.piggymetrics.auth.controller;
 import com.ibm.websphere.security.jwt.Claims;
 import com.ibm.websphere.security.jwt.JwtBuilder;
 import com.mp.piggymetrics.auth.domain.User;
-import com.mp.piggymetrics.auth.service.UserManager;
+import com.mp.piggymetrics.auth.service.UserService;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -29,7 +29,7 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 public class AuthResource {
 
   @Inject
-  private UserManager userManager;
+  private UserService userManager;
   
   @Inject
   private JsonWebToken jwtPrincipal;

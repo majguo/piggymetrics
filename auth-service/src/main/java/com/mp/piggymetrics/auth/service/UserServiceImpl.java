@@ -5,6 +5,8 @@ import com.mp.piggymetrics.auth.repository.UserRepository;
 
 import org.jnosql.artemis.Database;
 import org.jnosql.artemis.DatabaseType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -12,8 +14,10 @@ import javax.inject.Inject;
 import java.util.List;
 
 @ApplicationScoped
-public class UserManagerImpl implements UserManager {
+public class UserServiceImpl implements UserService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass());
+	
     @Inject
     @Database(DatabaseType.DOCUMENT)
     private UserRepository repository;
@@ -32,7 +36,7 @@ public class UserManagerImpl implements UserManager {
 		// TODO: encode password for security
         repository.save(user);
 
-        System.out.println(String.format("new user has been created: %s", user.getUsername()));
+        log.info("new user has been created: {}", user.getUsername());
         return user;
     }
 

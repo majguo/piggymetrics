@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.mp.piggymetrics.auth.domain.User;
 
-public interface UserManager {
+public interface UserService {
 
     User add(User user);
 
