@@ -12,13 +12,13 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import com.mp.piggymetrics.account.domain.Account;
 import com.mp.piggymetrics.account.domain.User;
-import com.mp.piggymetrics.account.service.AccountManager;
+import com.mp.piggymetrics.account.service.AccountService;
 
 @Path("")
 public class AccountResource {
 
     @Inject
-    private AccountManager accountManager;
+    private AccountService accountManager;
 
     @Inject
     private JsonWebToken jwtPrincipal;

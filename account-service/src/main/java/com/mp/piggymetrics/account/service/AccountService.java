@@ -5,7 +5,7 @@ import java.util.List;
 import com.mp.piggymetrics.account.domain.Account;
 import com.mp.piggymetrics.account.domain.User;
 
-public interface AccountManager {
+public interface AccountService {
 
     Account add(User user);
     

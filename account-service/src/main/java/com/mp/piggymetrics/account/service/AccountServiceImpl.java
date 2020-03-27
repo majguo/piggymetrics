@@ -8,6 +8,8 @@ import com.mp.piggymetrics.account.repository.AccountRepository;
 
 import org.jnosql.artemis.Database;
 import org.jnosql.artemis.DatabaseType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -19,8 +21,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @ApplicationScoped
-public class AccountManagerImpl implements AccountManager {
-
+public class AccountServiceImpl implements AccountService {
+	
+	private final Logger log = LoggerFactory.getLogger(getClass());
+	
     @Inject
     @Database(DatabaseType.DOCUMENT)
     private AccountRepository repository;
@@ -43,7 +47,7 @@ public class AccountManagerImpl implements AccountManager {
         
         repository.save(account);
 
-        System.out.println(String.format("new account has been created: %s", account.getName()));
+        log.info("new account has been created: {}", account.getName());
 
 		return account;
     }
@@ -63,7 +67,7 @@ public class AccountManagerImpl implements AccountManager {
 		account.setLastSeen(ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT));
 		repository.save(account);
 
-		System.out.println(String.format("account %s changes has been saved", name));
+		log.info("account {} changes has been saved", name);
 
 		//TODO: Call statistics-service to update user's statistics
     }
