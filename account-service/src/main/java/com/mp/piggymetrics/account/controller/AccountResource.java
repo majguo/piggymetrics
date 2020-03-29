@@ -10,7 +10,9 @@ import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import com.mp.piggymetrics.account.client.StatisticsServiceClient;
 import com.mp.piggymetrics.account.domain.Account;
 import com.mp.piggymetrics.account.domain.User;
 import com.mp.piggymetrics.account.service.AccountService;
@@ -21,6 +23,10 @@ public class AccountResource {
 
     @Inject
     private AccountService accountManager;
+    
+    @Inject
+	@RestClient
+	private StatisticsServiceClient client;
 
     @Inject
     private JsonWebToken jwtPrincipal;
@@ -38,7 +44,9 @@ public class AccountResource {
     @RolesAllowed({ "user", "admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateCurrent(Account update) {
-    	accountManager.save(this.jwtPrincipal.getName(), update);
+    	Account account = accountManager.save(this.jwtPrincipal.getName(), update);
+    	client.saveAccountStatistics(this.jwtPrincipal.getName(), account);
+    	
         return Response.ok().build();
     }
     

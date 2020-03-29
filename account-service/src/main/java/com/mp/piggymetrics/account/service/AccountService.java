@@ -9,7 +9,7 @@ public interface AccountService {
 
     Account add(User user);
     
-    void save(String name, Account update);
+    Account save(String name, Account update);
 
 	Account get(String name);
 

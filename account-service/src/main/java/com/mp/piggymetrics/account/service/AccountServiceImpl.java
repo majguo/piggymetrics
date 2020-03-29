@@ -53,10 +53,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void save(String name, Account update) {
+    public Account save(String name, Account update) {
         List<Account> accounts = repository.findByName(name);
 		if (accounts.size() != 1) {
-			return;
+			return null;
 		}
 		
 		Account account = accounts.get(0);
@@ -69,7 +69,7 @@ public class AccountServiceImpl implements AccountService {
 
 		log.info("account {} changes has been saved", name);
 
-		//TODO: Call statistics-service to update user's statistics
+		return account;
     }
 
     @Override
