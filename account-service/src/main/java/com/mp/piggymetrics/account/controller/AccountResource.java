@@ -7,6 +7,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.annotation.security.RolesAllowed;
+import javax.enterprise.context.RequestScoped;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
@@ -15,6 +16,7 @@ import com.mp.piggymetrics.account.domain.User;
 import com.mp.piggymetrics.account.service.AccountService;
 
 @Path("")
+@RequestScoped
 public class AccountResource {
 
     @Inject
