@@ -1,5 +1,6 @@
 package com.mp.piggymetrics.statistics.controller;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -38,6 +39,7 @@ public class StatisticsResource {
     
     @PUT
     @Path("{accountName}")
+    @RolesAllowed({ "user", "admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     public Response saveAccountStatistics(@PathParam("accountName") String accountName, Account account) {
     	statisticsService.save(accountName, account);
