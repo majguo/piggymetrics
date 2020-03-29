@@ -46,7 +46,7 @@
                     <keysize>2048</keysize>
                     <sigalg>SHA256withRSA</sigalg>
                     <alias>default</alias>
-                    <dname>cn=localhost, ou=dev, O=piggymetrics, C=us</dname>
+                    <dname>cn=default, ou=dev, O=piggymetrics, C=us</dname>
                     <validity>999</validity>
                     <skipIfExist>true</skipIfExist>
                   </configuration>
