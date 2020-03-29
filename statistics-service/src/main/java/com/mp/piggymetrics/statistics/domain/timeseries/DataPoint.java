@@ -1,10 +1,12 @@
 package com.mp.piggymetrics.statistics.domain.timeseries;
 
 import org.jnosql.artemis.Column;
+import org.jnosql.artemis.Convert;
 import org.jnosql.artemis.Entity;
 import org.jnosql.artemis.Id;
 
-import java.util.Date;
+import com.mp.piggymetrics.statistics.repository.converter.DataPointIdConverter;
+
 import java.util.Set;
 
 /**
@@ -15,13 +17,8 @@ import java.util.Set;
 public class DataPoint {
 
 	@Id
-	private String id;
-	
-	@Column
-	private String account;
-
-	@Column
-	private Date date;
+	@Convert(DataPointIdConverter.class)
+	private DataPointId id;
 
 	@Column
 	private Set<ItemMetric> incomes;
@@ -30,33 +27,17 @@ public class DataPoint {
 	private Set<ItemMetric> expenses;
 
 	@Column
-	private Statistics statistics;
+	private Set<ItemMetric> statistics;
 
 	@Column
-	private Rates rates;
+	private Set<ItemMetric> rates;
 
-	public String getId() {
+	public DataPointId getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(DataPointId id) {
 		this.id = id;
-	}
-	
-	public String getAccount() {
-		return account;
-	}
-	
-	public void setAccount(String account) {
-		this.account = account;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
 	}
 
 	public Set<ItemMetric> getIncomes() {
@@ -75,19 +56,19 @@ public class DataPoint {
 		this.expenses = expenses;
 	}
 
-	public Statistics getStatistics() {
+	public Set<ItemMetric> getStatistics() {
 		return statistics;
 	}
 
-	public void setStatistics(Statistics statistics) {
+	public void setStatistics(Set<ItemMetric> statistics) {
 		this.statistics = statistics;
 	}
 
-	public Rates getRates() {
+	public Set<ItemMetric> getRates() {
 		return rates;
 	}
 
-	public void setRates(Rates rates) {
+	public void setRates(Set<ItemMetric> rates) {
 		this.rates = rates;
 	}
 }

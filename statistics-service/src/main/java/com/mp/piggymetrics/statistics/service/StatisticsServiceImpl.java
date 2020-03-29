@@ -1,10 +1,10 @@
 package com.mp.piggymetrics.statistics.service;
 
+import com.google.common.collect.ImmutableSet;
 import com.mp.piggymetrics.statistics.domain.*;
 import com.mp.piggymetrics.statistics.domain.timeseries.DataPoint;
+import com.mp.piggymetrics.statistics.domain.timeseries.DataPointId;
 import com.mp.piggymetrics.statistics.domain.timeseries.ItemMetric;
-import com.mp.piggymetrics.statistics.domain.timeseries.Rates;
-import com.mp.piggymetrics.statistics.domain.timeseries.Statistics;
 import com.mp.piggymetrics.statistics.repository.DataPointRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +13,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -40,7 +37,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 	 */
 	@Override
 	public List<DataPoint> findByAccountName(String accountName) {
-		return repository.findByAccount(accountName);
+		return repository.findByIdAccount(accountName);
 	}
 
 	/**
@@ -49,7 +46,8 @@ public class StatisticsServiceImpl implements StatisticsService {
 	@Override
 	public DataPoint save(String accountName, Account account) {
 
-		ZonedDateTime zonedDateTime = LocalDate.now().atStartOfDay().atZone(ZoneId.systemDefault());
+		Date date = Date.from(LocalDate.now().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+		DataPointId pointId = new DataPointId(accountName, date);
 		
 		Set<ItemMetric> incomes = account.getIncomes().stream()
 				.map(this::createItemMetric)
@@ -58,23 +56,30 @@ public class StatisticsServiceImpl implements StatisticsService {
 		Set<ItemMetric> expenses = account.getExpenses().stream()
 				.map(this::createItemMetric)
 				.collect(Collectors.toSet());
-
+		
+		/*
+		 * Workaround to update the existing entry as it always failed with exception
+		 * "org.bson.codecs.configuration.CodecConfigurationException: Can't find a codec for class org.jnosql.diana.api.document.DefaultDocument"
+		 * . Noticed that updating the existing entry whose id property is built-in
+		 * primitive type works well.
+		 */
+		if (repository.findById(pointId).isPresent()) {
+			repository.deleteById(pointId);
+		} 
 		DataPoint dataPoint = new DataPoint();
-		String pointId = accountName + zonedDateTime.format(DateTimeFormatter.ISO_DATE_TIME);
 		dataPoint.setId(pointId);
-		dataPoint.setAccount(accountName);
-		dataPoint.setDate(Date.from(zonedDateTime.toInstant()));
 		dataPoint.setIncomes(incomes);
 		dataPoint.setExpenses(expenses);
 		dataPoint.setStatistics(createStatisticMetrics(incomes, expenses, account.getSaving()));
-		dataPoint.setRates(createRates());
+		dataPoint.setRates(ratesService.getCurrentRates().entrySet().stream()
+				.map(e -> new ItemMetric(e.getKey().toString(), e.getValue())).collect(Collectors.toSet()));
 
 		log.info("new datapoint has been created: {}", pointId);
 
 		return repository.save(dataPoint);
 	}
 
-	private Statistics createStatisticMetrics(Set<ItemMetric> incomes, Set<ItemMetric> expenses, Saving saving) {
+	private Set<ItemMetric> createStatisticMetrics(Set<ItemMetric> incomes, Set<ItemMetric> expenses, Saving saving) {
 
 		BigDecimal savingAmount = ratesService.convert(saving.getCurrency(), Currency.getBase(), saving.getAmount());
 
@@ -85,14 +90,9 @@ public class StatisticsServiceImpl implements StatisticsService {
 		BigDecimal incomesAmount = incomes.stream()
 				.map(ItemMetric::getAmount)
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
-
-		return new Statistics(incomesAmount, expensesAmount, savingAmount);
-	}
-
-	private Rates createRates() {
-		Map<Currency, BigDecimal> rates = ratesService.getCurrentRates();
 		
-		return new Rates(rates.get(Currency.EUR), rates.get(Currency.RUB), rates.get(Currency.USD));
+		return ImmutableSet.of(new ItemMetric("savingAmount", savingAmount),
+				new ItemMetric("expensesAmount", expensesAmount), new ItemMetric("incomesAmount", incomesAmount));
 	}
 	
 	/**
