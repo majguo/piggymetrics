@@ -31,8 +31,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account add(User user) {
-        //TODO: Call auth-service to create user
-
     	Saving saving = new Saving();
 		saving.setAmount(new BigDecimal(0));
 		saving.setCurrency(Currency.getDefault());

@@ -12,6 +12,7 @@ import javax.enterprise.context.RequestScoped;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import com.mp.piggymetrics.account.client.AuthServiceClient;
 import com.mp.piggymetrics.account.client.StatisticsServiceClient;
 import com.mp.piggymetrics.account.domain.Account;
 import com.mp.piggymetrics.account.domain.User;
@@ -26,7 +27,11 @@ public class AccountResource {
     
     @Inject
 	@RestClient
-	private StatisticsServiceClient client;
+	private StatisticsServiceClient statisticsClient;
+    
+    @Inject
+	@RestClient
+	private AuthServiceClient authClient;
 
     @Inject
     private JsonWebToken jwtPrincipal;
@@ -45,7 +50,7 @@ public class AccountResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateCurrent(Account update) {
     	Account account = accountManager.save(this.jwtPrincipal.getName(), update);
-    	client.saveAccountStatistics(this.jwtPrincipal.getName(), account);
+    	statisticsClient.saveAccountStatistics(this.jwtPrincipal.getName(), account);
     	
         return Response.ok().build();
     }
@@ -71,6 +76,7 @@ public class AccountResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(User user) {
+    	authClient.add(user);
     	Account savedAccount = accountManager.add(user);
         
         return Response.created(
