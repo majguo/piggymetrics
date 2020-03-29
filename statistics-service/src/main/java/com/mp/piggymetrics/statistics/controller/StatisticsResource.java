@@ -8,6 +8,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import com.mp.piggymetrics.statistics.domain.Account;
 import com.mp.piggymetrics.statistics.service.ExchangeRatesService;
@@ -22,6 +25,9 @@ public class StatisticsResource {
 	
 	@Inject
 	private StatisticsService statisticsService;
+	
+	@Inject
+    private JsonWebToken jwtPrincipal;
 
     @GET
     @Path("rates")
@@ -31,10 +37,22 @@ public class StatisticsResource {
     }
     
     @GET
+    @Path("current")
+    @RolesAllowed({ "user", "admin" })
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCurrentAccountStatistics() {
+    	return Response.ok(statisticsService.findByAccountName(this.jwtPrincipal.getName())).build();
+    }
+    
+    @GET
     @Path("{accountName}")
+    @RolesAllowed({ "user", "admin" })
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStatisticsByAccountName(@PathParam("accountName") String accountName) {
-        return Response.ok(statisticsService.findByAccountName(accountName)).build();
+    	if (this.jwtPrincipal.getGroups().contains("admin") || this.jwtPrincipal.getName().equals(accountName)) {
+    		return Response.ok(statisticsService.findByAccountName(accountName)).build();
+    	}
+    	return Response.status(Status.UNAUTHORIZED).entity("No permission granted to view statistics of other account!").build();
     }
     
     @PUT
@@ -42,8 +60,10 @@ public class StatisticsResource {
     @RolesAllowed({ "user", "admin" })
     @Consumes(MediaType.APPLICATION_JSON)
     public Response saveAccountStatistics(@PathParam("accountName") String accountName, Account account) {
-    	statisticsService.save(accountName, account);
-        
-        return Response.ok().build();
+    	if (this.jwtPrincipal.getGroups().contains("admin") || this.jwtPrincipal.getName().equals(accountName)) {
+    		statisticsService.save(accountName, account);
+        	return Response.ok().build();
+    	}
+    	return Response.status(Status.UNAUTHORIZED).entity("No permission granted to update statistics of other account!").build();
     }
 }
