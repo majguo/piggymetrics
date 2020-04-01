@@ -12,11 +12,11 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import com.mp.piggymetrics.account.domain.User;
 
 @ApplicationScoped
-@RegisterRestClient
+@RegisterRestClient(configKey = "authServiceClient")
 public interface AuthServiceClient {
 
     @POST
-    @Path("users")
+    @Path("auth/users")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(User user);
 }

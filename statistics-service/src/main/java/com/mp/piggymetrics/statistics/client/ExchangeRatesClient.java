@@ -1,6 +1,7 @@
 package com.mp.piggymetrics.statistics.client;
 
-import java.util.Collections;
+import java.math.BigDecimal;
+import com.google.common.collect.ImmutableMap;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.GET;
@@ -28,7 +29,11 @@ public interface ExchangeRatesClient {
     default ExchangeRatesContainer getRatesFallback(Currency base) {
         ExchangeRatesContainer container = new ExchangeRatesContainer();
         container.setBase(Currency.getBase());
-        container.setRates(Collections.emptyMap());
+        container.setRates(ImmutableMap.of(
+            Currency.EUR.name(), new BigDecimal(0.9127418766),
+            Currency.RUB.name(), new BigDecimal(78.4488864549),
+            Currency.USD.name(), BigDecimal.ONE
+		));
         return container;
     }
 }

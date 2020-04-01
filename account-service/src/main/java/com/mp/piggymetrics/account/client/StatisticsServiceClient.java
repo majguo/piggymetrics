@@ -14,12 +14,12 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import com.mp.piggymetrics.account.domain.Account;
 
 @ApplicationScoped
-@RegisterRestClient
+@RegisterRestClient(configKey = "statisticsServiceClient")
 @RegisterClientHeaders
 public interface StatisticsServiceClient {
 
     @PUT
-    @Path("{accountName}")
+    @Path("statistics/{accountName}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response saveAccountStatistics(@PathParam("accountName") String accountName, Account account);
 }
