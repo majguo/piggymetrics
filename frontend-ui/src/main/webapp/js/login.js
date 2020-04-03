@@ -15,7 +15,7 @@ $('#signup').submit(function(e) {
     }
 
     $.ajax({
-        url: 'https://localhost:9643/accounts/',
+        url: ACCOUNT_SVC_URL + '/accounts/',
         datatype: 'json',
         type: "post",
         contentType: "application/json",
