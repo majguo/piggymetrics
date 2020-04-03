@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<server description="${project.name}">
+<server description="account-service">
 
     <featureManager>
         <feature>jaxrs-2.1</feature>
@@ -15,7 +15,7 @@
                   httpPort="9280"
                   httpsPort="9643"/>
 
-    <webApplication location="${project.name}.war" contextRoot="/"/>
+    <webApplication location="account-service.war" contextRoot="/"/>
     <mpMetrics authentication="false"/>
 
     <cors domain="/accounts"
@@ -28,6 +28,6 @@
     <keyStore id="defaultKeyStore" location="keystore.jceks" type="JCEKS" password="secret" />
 
     <!-- The MP JWT configuration that injects the caller's JWT into a ResourceScoped bean for inspection. -->
-    <mpJwt id="jwtUserConsumer" keyName="default" audiences="piggymetrics" issuer="${jwt.issuer}"/>
+    <mpJwt id="jwtUserConsumer" keyName="default" audiences="piggymetrics" issuer="http://piggymetrics.mp.com"/>
 
 </server>

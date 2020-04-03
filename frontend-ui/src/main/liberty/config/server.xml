@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<server description="${project.name}">
+<server description="frontend-ui">
 
     <featureManager>
         <feature>servlet-4.0</feature>
@@ -10,7 +10,7 @@
                   httpPort="9080"
                   httpsPort="9443" />
 
-    <webApplication location="${project.name}.war" contextRoot="/" />
+    <webApplication location="frontend-ui.war" contextRoot="/" />
 
     <!-- This is the keystore that will be used by SSL and by JWT. -->
     <keyStore id="defaultKeyStore" location="keystore.jceks" type="JCEKS" password="secret" />

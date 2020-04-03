@@ -18,6 +18,6 @@ sed -i "s#authServiceClient/mp-rest/uri=.*#authServiceClient/mp-rest/uri=http://
 sed -i "s#statisticsServiceClient/mp-rest/uri=.*#statisticsServiceClient/mp-rest/uri=http://${statistics_host}:${statistics_port}#g" WEB-INF/classes/META-INF/microprofile-config.properties
 jar -uf "$warPkg" WEB-INF/classes/META-INF/jnosql.json
 jar -uf "$warPkg" WEB-INF/classes/META-INF/microprofile-config.properties
-rm -rf rm -rf META-INF/ WEB-INF/
+rm -rf META-INF/ WEB-INF/
 
 /opt/ol/wlp/bin/server run defaultServer

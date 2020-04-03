@@ -1,0 +1,233 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo
+  labels:
+    app: mongo
+spec:
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+      - name: mongo
+        image: mongo
+        ports:
+        - containerPort: 27017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: mongo
+  ports:
+  - protocol: TCP
+    port: 27017
+    targetPort: 27017
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+  labels:
+    app: auth
+spec:
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+      - name: auth
+        image: auth-service:1.0
+        ports:
+        - name: http
+          containerPort: 9180
+        - name: https
+          containerPort: 9543
+        env:
+          - name: MONGO_HOST
+            value: mongo-svc
+          - name: MONGO_PORT
+            value: '27017'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: auth
+  ports:
+  - name: http
+    protocol: TCP
+    port: 9180
+    targetPort: http
+  - name: https
+    protocol: TCP
+    port: 9543
+    targetPort: https
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: statistics
+  labels:
+    app: statistics
+spec:
+  selector:
+    matchLabels:
+      app: statistics
+  template:
+    metadata:
+      labels:
+        app: statistics
+    spec:
+      containers:
+      - name: statistics
+        image: statistics-service:1.0
+        ports:
+        - name: http
+          containerPort: 9380
+        - name: https
+          containerPort: 9743
+        env:
+          - name: MONGO_HOST
+            value: mongo-svc
+          - name: MONGO_PORT
+            value: '27017'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: statistics-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: statistics
+  ports:
+  - name: http
+    protocol: TCP
+    port: 9380
+    targetPort: http
+  - name: https
+    protocol: TCP
+    port: 9743
+    targetPort: https
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account
+  labels:
+    app: account
+spec:
+  selector:
+    matchLabels:
+      app: account
+  template:
+    metadata:
+      labels:
+        app: account
+    spec:
+      containers:
+      - name: account
+        image: account-service:1.0
+        ports:
+        - name: http
+          containerPort: 9280
+        - name: https
+          containerPort: 9643
+        env:
+          - name: MONGO_HOST
+            value: mongo-svc
+          - name: MONGO_PORT
+            value: '27017'
+          - name: AUTH_HOST
+            value: auth-svc
+          - name: AUTH_PORT
+            value: '9180'
+          - name: STATISTICS_HOST
+            value: statistics-svc
+          - name: STATISTICS_PORT
+            value: '9380'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: account-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: account
+  ports:
+  - name: http
+    protocol: TCP
+    port: 9280
+    targetPort: http
+  - name: https
+    protocol: TCP
+    port: 9643
+    targetPort: https
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: frontend-ui:1.0
+        ports:
+        - name: http
+          containerPort: 9080
+        - name: https
+          containerPort: 9443
+        env:
+          - name: AUTH_HOST
+            value: auth-svc
+          - name: AUTH_PORT
+            value: '9180'
+          - name: ACCOUNT_HOST
+            value: account-svc
+          - name: ACCOUNT_PORT
+            value: '9280'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-ui
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend
+  ports:
+  - name: http
+    protocol: TCP
+    port: 9080
+    targetPort: http
+  - name: https
+    protocol: TCP
+    port: 9443
+    targetPort: https
