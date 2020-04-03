@@ -1,6 +1,6 @@
 #!/bin/sh
 
-mvn package
+mvn clean install package
 
 docker rmi gateway:1.0
 docker rmi auth-service:1.0
