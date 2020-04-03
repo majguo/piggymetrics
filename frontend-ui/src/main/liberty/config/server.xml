@@ -2,8 +2,13 @@
 <server description="frontend-ui">
 
     <featureManager>
-        <feature>servlet-4.0</feature>
+        <feature>jaxrs-2.1</feature>
+        <feature>jsonb-1.0</feature>
         <feature>ssl-1.0</feature>
+        <feature>jwt-1.0</feature>
+        <feature>mpJwt-1.1</feature>
+        <feature>mpConfig-1.3</feature>
+        <feature>mpRestClient-1.3</feature>
     </featureManager>
 
     <httpEndpoint id="defaultHttpEndpoint"
@@ -11,8 +16,18 @@
                   httpsPort="9443" />
 
     <webApplication location="frontend-ui.war" contextRoot="/" />
+    <mpMetrics authentication="false"/>
+
+    <cors domain="/api"
+          allowedOrigins="*"
+          allowedMethods="GET, DELETE, POST, PUT"
+          allowedHeaders="Accept, Content-Type, Authorization"
+          maxAge="3600" />
 
     <!-- This is the keystore that will be used by SSL and by JWT. -->
     <keyStore id="defaultKeyStore" location="keystore.jceks" type="JCEKS" password="secret" />
+    
+    <!-- The MP JWT configuration that injects the caller's JWT into a ResourceScoped bean for inspection. -->
+    <mpJwt id="jwtUserConsumer" keyName="default" audiences="piggymetrics" issuer="http://piggymetrics.mp.com"/>
 
 </server>

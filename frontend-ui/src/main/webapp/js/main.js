@@ -868,7 +868,7 @@ function launchStatistic() {
 function jsonDataSave() {
     if (global.savePermit) {
         $.ajax({
-            url: ACCOUNT_SVC_URL + '/accounts/current',
+            url: '/api/accounts/current',
             datatype: 'json',
             type: "put",
             contentType: "application/json",

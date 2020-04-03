@@ -11,9 +11,9 @@ warPkg=$2
 cd "$pwd"
 
 jar -xf "$warPkg"
-sed -i "s#var AUTH_SVC_URL = .*#var AUTH_SVC_URL = \"http://${auth_host}:${auth_port}\"#g" js/config.js
-sed -i "s#var ACCOUNT_SVC_URL = .*#var ACCOUNT_SVC_URL = \"http://${account_host}:${account_port}\"#g" js/config.js
-jar -uf "$warPkg" js/config.js
+sed -i "s#authServiceClient/mp-rest/uri=.*#authServiceClient/mp-rest/uri=http://${auth_host}:${auth_port}#g" WEB-INF/classes/META-INF/microprofile-config.properties
+sed -i "s#accountServiceClient/mp-rest/uri=.*#accountServiceClient/mp-rest/uri=http://${account_host}:${account_port}#g" WEB-INF/classes/META-INF/microprofile-config.properties
+jar -uf "$warPkg" WEB-INF/classes/META-INF/microprofile-config.properties
 rm -rf css/ fonts/ images/ js/ META-INF/ WEB-INF/ attribution.html index.html
 
 /opt/ol/wlp/bin/server run defaultServer

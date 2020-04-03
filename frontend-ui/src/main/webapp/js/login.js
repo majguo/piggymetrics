@@ -15,7 +15,7 @@ $('#signup').submit(function(e) {
     }
 
     $.ajax({
-        url: ACCOUNT_SVC_URL + '/accounts/',
+        url: '/api/accounts/',
         datatype: 'json',
         type: "post",
         contentType: "application/json",

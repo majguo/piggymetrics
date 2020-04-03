@@ -14,7 +14,7 @@ function requestOauthToken(username, password) {
 	var success = false;
 
 	$.ajax({
-		url: AUTH_SVC_URL + '/auth/login',
+		url: '/api/auth/login',
 		datatype: 'json',
         type: 'post',
         contentType: 'application/json',
@@ -54,7 +54,7 @@ function getCurrentAccount() {
 
 	if (token) {
 		$.ajax({
-			url: ACCOUNT_SVC_URL + '/accounts/current',
+			url: '/api/accounts/current',
 			datatype: 'json',
 			type: 'get',
 			headers: {'Authorization': 'Bearer ' + token},
