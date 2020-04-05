@@ -1,7 +1,10 @@
 package com.mp.piggymetrics.account.domain;
 
 import org.jnosql.artemis.Column;
+import org.jnosql.artemis.Convert;
 import org.jnosql.artemis.Entity;
+
+import com.mp.piggymetrics.account.repository.converter.BigDecimalConverter;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -11,6 +14,7 @@ public class Saving {
 
 	@NotNull
 	@Column
+	@Convert(BigDecimalConverter.class)
 	private BigDecimal amount;
 
 	@NotNull
@@ -19,6 +23,7 @@ public class Saving {
 
 	@NotNull
 	@Column
+	@Convert(BigDecimalConverter.class)
 	private BigDecimal interest;
 
 	@NotNull

@@ -2,8 +2,10 @@ package com.mp.piggymetrics.statistics.domain.timeseries;
 
 import com.mp.piggymetrics.statistics.domain.Currency;
 import com.mp.piggymetrics.statistics.domain.TimePeriod;
+import com.mp.piggymetrics.statistics.repository.converter.BigDecimalConverter;
 
 import org.jnosql.artemis.Column;
+import org.jnosql.artemis.Convert;
 import org.jnosql.artemis.Entity;
 
 import java.math.BigDecimal;
@@ -19,6 +21,7 @@ public class ItemMetric {
 	private String title;
 
 	@Column
+	@Convert(BigDecimalConverter.class)
 	private BigDecimal amount;
 
 	public ItemMetric() {

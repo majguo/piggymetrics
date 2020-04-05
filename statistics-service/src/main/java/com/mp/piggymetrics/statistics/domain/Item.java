@@ -2,6 +2,11 @@ package com.mp.piggymetrics.statistics.domain;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.jnosql.artemis.Convert;
+
+import com.mp.piggymetrics.statistics.repository.converter.BigDecimalConverter;
+
 import java.math.BigDecimal;
 
 public class Item {
@@ -11,6 +16,7 @@ public class Item {
 	private String title;
 
 	@NotNull
+	@Convert(BigDecimalConverter.class)
 	private BigDecimal amount;
 
 	@NotNull

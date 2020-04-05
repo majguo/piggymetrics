@@ -1,17 +1,24 @@
 package com.mp.piggymetrics.statistics.domain;
 
 import javax.validation.constraints.NotNull;
+
+import org.jnosql.artemis.Convert;
+
+import com.mp.piggymetrics.statistics.repository.converter.BigDecimalConverter;
+
 import java.math.BigDecimal;
 
 public class Saving {
 
 	@NotNull
+	@Convert(BigDecimalConverter.class)
 	private BigDecimal amount;
 
 	@NotNull
 	private Currency currency;
 
 	@NotNull
+	@Convert(BigDecimalConverter.class)
 	private BigDecimal interest;
 
 	@NotNull
