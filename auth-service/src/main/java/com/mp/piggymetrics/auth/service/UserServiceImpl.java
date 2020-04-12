@@ -3,6 +3,8 @@ package com.mp.piggymetrics.auth.service;
 import com.mp.piggymetrics.auth.domain.User;
 import com.mp.piggymetrics.auth.repository.UserRepository;
 
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.jnosql.artemis.Database;
 import org.jnosql.artemis.DatabaseType;
 import org.slf4j.Logger;
@@ -22,6 +24,8 @@ public class UserServiceImpl implements UserService {
     @Database(DatabaseType.DOCUMENT)
     private UserRepository repository;
 
+    @Timed(name = "userCreateTime", absolute = true)
+    @Counted(name = "userCreateCount", absolute = true)
     @Override
     public User add(User user) {
 
@@ -40,6 +44,8 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Timed(name = "userReadTime", absolute = true)
+    @Counted(name = "userReadCount", absolute = true)
     @Override
     public User get(String name) {
         List<User> users = repository.findByUsername(name);

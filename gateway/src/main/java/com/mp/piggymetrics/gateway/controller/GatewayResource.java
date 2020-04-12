@@ -7,6 +7,8 @@ import javax.ws.rs.core.Response;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.mp.piggymetrics.gateway.client.AuthServiceClient;
@@ -26,6 +28,8 @@ public class GatewayResource {
 	@RestClient
 	private AccountServiceClient accountClient;
     
+	@Timed(name = "gatewayLoginTime", absolute = true)
+    @Counted(name = "gatewayLoginCount", absolute = true)
     @POST
     @Path("auth/login")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -33,6 +37,8 @@ public class GatewayResource {
     	return authClient.loginUser(user);
     }
 
+	@Timed(name = "gatewayGetCurrentAccountTime", absolute = true)
+    @Counted(name = "gatewayGetCurrentAccountCount", absolute = true)
     @GET
     @Path("accounts/current")
     @RolesAllowed({ "user", "admin" })
@@ -41,6 +47,8 @@ public class GatewayResource {
     	return accountClient.getCurrent();
     }
     
+	@Timed(name = "gatewayUpdateCurrentAccountTime", absolute = true)
+    @Counted(name = "gatewayUpdateCurrentAccountCount", absolute = true)
     @PUT
     @Path("accounts/current")
     @RolesAllowed({ "user", "admin" })
@@ -49,6 +57,8 @@ public class GatewayResource {
     	return accountClient.updateCurrent(update);
     }
 
+	@Timed(name = "gatewayCreateAccountTime", absolute = true)
+    @Counted(name = "gatewayCreateAccountCount", absolute = true)
     @POST
     @Path("accounts")
     @Consumes(MediaType.APPLICATION_JSON)

@@ -6,6 +6,10 @@ import com.mp.piggymetrics.account.domain.Saving;
 import com.mp.piggymetrics.account.domain.User;
 import com.mp.piggymetrics.account.repository.AccountRepository;
 
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Gauge;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.jnosql.artemis.Database;
 import org.jnosql.artemis.DatabaseType;
 import org.slf4j.Logger;
@@ -29,6 +33,8 @@ public class AccountServiceImpl implements AccountService {
     @Database(DatabaseType.DOCUMENT)
     private AccountRepository repository;
 
+    @Timed(name = "accountCreateTime", absolute = true)
+    @Counted(name = "accountCreateCount", absolute = true)
     @Override
     public Account add(User user) {
     	Saving saving = new Saving();
@@ -50,6 +56,8 @@ public class AccountServiceImpl implements AccountService {
 		return account;
     }
 
+    @Timed(name = "accountUpdateTime", absolute = true)
+    @Counted(name = "accountUpdateCount", absolute = true)
     @Override
     public Account save(String name, Account update) {
         List<Account> accounts = repository.findByName(name);
@@ -70,6 +78,8 @@ public class AccountServiceImpl implements AccountService {
 		return account;
     }
 
+    @Timed(name = "accountReadTime", absolute = true)
+    @Counted(name = "accountReadCount", absolute = true)
     @Override
     public Account get(String name) {
         List<Account> accounts = repository.findByName(name);
@@ -86,6 +96,10 @@ public class AccountServiceImpl implements AccountService {
         repository.deleteById(id);
     }
 
+    @Gauge(unit = MetricUnits.NONE,
+ 	       name = "accountSizeGauge",
+ 	       absolute = true,
+ 	       description = "Nmber of accounts")
 	@Override
 	public long count() {
 		return repository.count();

@@ -6,6 +6,11 @@ import com.mp.piggymetrics.statistics.domain.timeseries.DataPoint;
 import com.mp.piggymetrics.statistics.domain.timeseries.DataPointId;
 import com.mp.piggymetrics.statistics.domain.timeseries.ItemMetric;
 import com.mp.piggymetrics.statistics.repository.DataPointRepository;
+
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Gauge;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,17 +37,15 @@ public class StatisticsServiceImpl implements StatisticsService {
 	@Inject
 	private ExchangeRatesService ratesService;
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Timed(name = "statisticsReadTime", absolute = true)
+    @Counted(name = "statisticsReadCount", absolute = true)
 	@Override
 	public List<DataPoint> findByAccountName(String accountName) {
 		return repository.findByIdAccount(accountName);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	@Timed(name = "statisticsSaveTime", absolute = true)
+    @Counted(name = "statisticsSaveCount", absolute = true)
 	@Override
 	public DataPoint save(String accountName, Account account) {
 
@@ -108,6 +111,10 @@ public class StatisticsServiceImpl implements StatisticsService {
 		return new ItemMetric(item.getTitle(), amount);
 	}
 
+	@Gauge(unit = MetricUnits.NONE,
+	       name = "statisticsSizeGauge",
+	       absolute = true,
+	       description = "The total number of statistics for all of accounts")
 	@Override
 	public long count() {
 		return repository.count();
