@@ -107,4 +107,9 @@ public class StatisticsServiceImpl implements StatisticsService {
 
 		return new ItemMetric(item.getTitle(), amount);
 	}
+
+	@Override
+	public long count() {
+		return repository.count();
+	}
 }

@@ -16,4 +16,6 @@ public interface AccountService {
     List<Account> getAll();
 
     void delete(String id);
+    
+    long count();
 }

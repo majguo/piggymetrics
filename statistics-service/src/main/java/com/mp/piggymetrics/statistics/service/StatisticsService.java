@@ -26,5 +26,6 @@ public interface StatisticsService {
 	 * @param account
 	 */
 	DataPoint save(String accountName, Account account);
-
+	
+	long count();
 }

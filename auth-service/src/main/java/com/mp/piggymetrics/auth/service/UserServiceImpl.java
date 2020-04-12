@@ -50,4 +50,9 @@ public class UserServiceImpl implements UserService {
 	public List<User> getAll() {
 		return repository.findAll();
 	}
+
+	@Override
+	public long count() {
+		return repository.count();
+	}
 }

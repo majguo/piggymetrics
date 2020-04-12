@@ -8,6 +8,7 @@
         <feature>jwt-1.0</feature>
         <feature>mpJwt-1.1</feature>
         <feature>mpConfig-1.3</feature>
+        <feature>mpHealth-2.1</feature>
     </featureManager>
 
     <httpEndpoint id="defaultHttpEndpoint"

@@ -86,4 +86,9 @@ public class AccountServiceImpl implements AccountService {
         repository.deleteById(id);
     }
 
+	@Override
+	public long count() {
+		return repository.count();
+	}
+
 }

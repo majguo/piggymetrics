@@ -35,4 +35,9 @@ public interface AccountServiceClient {
     @Path("accounts")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(User user);
+    
+    @GET
+    @Path("health/ready")
+    @Produces(MediaType.APPLICATION_JSON)
+	public Response ready();
 }

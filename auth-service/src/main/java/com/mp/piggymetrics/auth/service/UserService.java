@@ -11,4 +11,6 @@ public interface UserService {
 	User get(String name);
 	
 	List<User> getAll();
+	
+	long count();
 }
