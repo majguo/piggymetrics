@@ -10,7 +10,11 @@
         <feature>mpConfig-1.3</feature>
         <feature>mpRestClient-1.3</feature>
         <feature>mpHealth-2.1</feature>
+        <feature>mpOpenTracing-1.3</feature>
+        <feature>usr:opentracingZipkin-0.31</feature>
     </featureManager>
+
+    <opentracingZipkin host="localhost" port="9411" />
 
     <httpEndpoint id="defaultHttpEndpoint"
                   httpPort="9080"
