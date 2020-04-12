@@ -94,6 +94,10 @@ spec:
             value: mongo-svc
           - name: MONGO_PORT
             value: '27017'
+          - name: ZIPKIN_HOST
+            value: zipkin-svc
+          - name: ZIPKIN_PORT
+            value: '9411'
         readinessProbe:
           httpGet:
             path: /health/ready
@@ -157,6 +161,10 @@ spec:
             value: mongo-svc
           - name: MONGO_PORT
             value: '27017'
+          - name: ZIPKIN_HOST
+            value: zipkin-svc
+          - name: ZIPKIN_PORT
+            value: '9411'
         readinessProbe:
           httpGet:
             path: /health/ready
@@ -220,6 +228,10 @@ spec:
             value: mongo-svc
           - name: MONGO_PORT
             value: '27017'
+          - name: ZIPKIN_HOST
+            value: zipkin-svc
+          - name: ZIPKIN_PORT
+            value: '9411'
           - name: AUTH_HOST
             value: auth-svc
           - name: AUTH_PORT
@@ -287,6 +299,10 @@ spec:
         - name: https
           containerPort: 9443
         env:
+          - name: ZIPKIN_HOST
+            value: zipkin-svc
+          - name: ZIPKIN_PORT
+            value: '9411'
           - name: AUTH_HOST
             value: auth-svc
           - name: AUTH_PORT
