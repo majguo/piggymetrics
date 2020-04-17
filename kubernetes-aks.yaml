@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -66,6 +67,25 @@ spec:
     port: 27017
     targetPort: 27017
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: filebeat-config
+  labels:
+    app: filebeat
+data:
+  filebeat.yml: |-
+    filebeat.inputs:
+    - type: log
+      paths:
+        - /logs/messages*.log
+      json.message_key: ibm_datetime
+      json.keys_under_root: true
+      json.add_error_key: true
+
+    cloud.id: ${ELASTIC_CLOUD_ID}
+    cloud.auth: ${ELASTIC_CLOUD_AUTH}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -84,6 +104,7 @@ spec:
       containers:
       - name: auth
         image: jiangmaregistry.azurecr.io/auth-service:1.0
+        imagePullPolicy: Always
         ports:
         - name: http
           containerPort: 9180
@@ -114,6 +135,43 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 3
           failureThreshold: 1
+        volumeMounts:
+          - name: logs-volume
+            mountPath: /logs
+      - name: filebeat
+        image: docker.elastic.co/beats/filebeat:7.6.2
+        args: [
+          "-c", "/etc/filebeat.yml",
+          "-e",
+        ]
+        env:
+        - name: ELASTIC_CLOUD_ID
+          value: Elasticsearch-service-test:ZWFzdHVzMi5henVyZS5lbGFzdGljLWNsb3VkLmNvbTo5MjQzJDlmMzE5NmU2OTY4MzQ0MzNhMzkyOWUzYjE2MzkxY2I4JDlhNDNmZmE4MDQzMjQzMmI4NTlmYWVhNzgwZmQ4Mzc4
+        - name: ELASTIC_CLOUD_AUTH
+          value: elastic:CBHzsMyrJKcuizu2EW3mbCBX
+        securityContext:
+          runAsUser: 0
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+        - name: config
+          mountPath: /etc/filebeat.yml
+          readOnly: true
+          subPath: filebeat.yml
+        - name: logs-volume
+          mountPath: /logs
+          readOnly: true
+      volumes:
+      - name: config
+        configMap:
+          defaultMode: 0600
+          name: filebeat-config
+      - name: logs-volume
+        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
@@ -151,6 +209,7 @@ spec:
       containers:
       - name: statistics
         image: jiangmaregistry.azurecr.io/statistics-service:1.0
+        imagePullPolicy: Always
         ports:
         - name: http
           containerPort: 9380
@@ -181,6 +240,43 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 3
           failureThreshold: 1
+        volumeMounts:
+          - name: logs-volume
+            mountPath: /logs
+      - name: filebeat
+        image: docker.elastic.co/beats/filebeat:7.6.2
+        args: [
+          "-c", "/etc/filebeat.yml",
+          "-e",
+        ]
+        env:
+        - name: ELASTIC_CLOUD_ID
+          value: Elasticsearch-service-test:ZWFzdHVzMi5henVyZS5lbGFzdGljLWNsb3VkLmNvbTo5MjQzJDlmMzE5NmU2OTY4MzQ0MzNhMzkyOWUzYjE2MzkxY2I4JDlhNDNmZmE4MDQzMjQzMmI4NTlmYWVhNzgwZmQ4Mzc4
+        - name: ELASTIC_CLOUD_AUTH
+          value: elastic:CBHzsMyrJKcuizu2EW3mbCBX
+        securityContext:
+          runAsUser: 0
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+        - name: config
+          mountPath: /etc/filebeat.yml
+          readOnly: true
+          subPath: filebeat.yml
+        - name: logs-volume
+          mountPath: /logs
+          readOnly: true
+      volumes:
+      - name: config
+        configMap:
+          defaultMode: 0600
+          name: filebeat-config
+      - name: logs-volume
+        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
@@ -218,6 +314,7 @@ spec:
       containers:
       - name: account
         image: jiangmaregistry.azurecr.io/account-service:1.0
+        imagePullPolicy: Always
         ports:
         - name: http
           containerPort: 9280
@@ -256,6 +353,43 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 3
           failureThreshold: 1
+        volumeMounts:
+          - name: logs-volume
+            mountPath: /logs
+      - name: filebeat
+        image: docker.elastic.co/beats/filebeat:7.6.2
+        args: [
+          "-c", "/etc/filebeat.yml",
+          "-e",
+        ]
+        env:
+        - name: ELASTIC_CLOUD_ID
+          value: Elasticsearch-service-test:ZWFzdHVzMi5henVyZS5lbGFzdGljLWNsb3VkLmNvbTo5MjQzJDlmMzE5NmU2OTY4MzQ0MzNhMzkyOWUzYjE2MzkxY2I4JDlhNDNmZmE4MDQzMjQzMmI4NTlmYWVhNzgwZmQ4Mzc4
+        - name: ELASTIC_CLOUD_AUTH
+          value: elastic:CBHzsMyrJKcuizu2EW3mbCBX
+        securityContext:
+          runAsUser: 0
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+        - name: config
+          mountPath: /etc/filebeat.yml
+          readOnly: true
+          subPath: filebeat.yml
+        - name: logs-volume
+          mountPath: /logs
+          readOnly: true
+      volumes:
+      - name: config
+        configMap:
+          defaultMode: 0600
+          name: filebeat-config
+      - name: logs-volume
+        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
@@ -293,6 +427,7 @@ spec:
       containers:
       - name: gateway
         image: jiangmaregistry.azurecr.io/gateway:1.0
+        imagePullPolicy: Always
         ports:
         - name: http
           containerPort: 9080
@@ -327,6 +462,43 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 3
           failureThreshold: 1
+        volumeMounts:
+          - name: logs-volume
+            mountPath: /logs
+      - name: filebeat
+        image: docker.elastic.co/beats/filebeat:7.6.2
+        args: [
+          "-c", "/etc/filebeat.yml",
+          "-e",
+        ]
+        env:
+        - name: ELASTIC_CLOUD_ID
+          value: Elasticsearch-service-test:ZWFzdHVzMi5henVyZS5lbGFzdGljLWNsb3VkLmNvbTo5MjQzJDlmMzE5NmU2OTY4MzQ0MzNhMzkyOWUzYjE2MzkxY2I4JDlhNDNmZmE4MDQzMjQzMmI4NTlmYWVhNzgwZmQ4Mzc4
+        - name: ELASTIC_CLOUD_AUTH
+          value: elastic:CBHzsMyrJKcuizu2EW3mbCBX
+        securityContext:
+          runAsUser: 0
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        volumeMounts:
+        - name: config
+          mountPath: /etc/filebeat.yml
+          readOnly: true
+          subPath: filebeat.yml
+        - name: logs-volume
+          mountPath: /logs
+          readOnly: true
+      volumes:
+      - name: config
+        configMap:
+          defaultMode: 0600
+          name: filebeat-config
+      - name: logs-volume
+        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
