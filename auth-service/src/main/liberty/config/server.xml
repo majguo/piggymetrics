@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<server description="auth-service">
+<server description="${project.name}">
 
     <featureManager>
         <feature>jaxrs-2.1</feature>
@@ -21,8 +21,10 @@
                   httpPort="9180"
                   httpsPort="9543"/>
 
-    <webApplication location="auth-service.war" contextRoot="/" />
+    <webApplication location="${project.name}.war" contextRoot="/" />
     <mpMetrics authentication="false"/>
+
+    <logging messageFormat="json" messageLogLevel="info" messageSource="message,trace,accessLog,ffdc,audit" />
 
     <cors domain="/auth"
           allowedOrigins="*"
@@ -37,9 +39,9 @@
 		JWT would be MP JWT compliant if the code using it adds valid group and user 
 		names. The JWT is signed using the RS256 algorithm, using the default keystore 
 		defined above. -->
-    <jwtBuilder id="jwtAuthUserBuilder" issuer="http://piggymetrics.mp.com" expiry="1h"
+    <jwtBuilder id="jwtAuthUserBuilder" issuer="${jwt.issuer}" expiry="1h"
                 keyAlias="default" audiences="piggymetrics" jti="true"/>
                 
     <!-- The MP JWT configuration that injects the caller's JWT into a ResourceScoped bean for inspection. -->
-    <mpJwt id="jwtUserConsumer" keyName="default" audiences="piggymetrics" issuer="http://piggymetrics.mp.com"/>
+    <mpJwt id="jwtUserConsumer" keyName="default" audiences="piggymetrics" issuer="${jwt.issuer}"/>
 </server>

@@ -102,7 +102,7 @@
               <serverName>${final.name}</serverName>
               <bootstrapProperties>
                 <project.name>${final.name}</project.name>
-                <jwt.issuer>https://server.example.com</jwt.issuer>
+                <jwt.issuer>${jwt.issuer}</jwt.issuer>
               </bootstrapProperties>
             </configuration>
           </plugin>
