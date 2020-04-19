@@ -18,3 +18,5 @@ data:
       hosts: ['${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}']
       username: ${ELASTICSEARCH_USERNAME}
       password: ${ELASTICSEARCH_PASSWORD}
+      protocol: https
+      ssl.verification_mode: none
