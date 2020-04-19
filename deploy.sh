@@ -23,4 +23,5 @@ kubectl apply --namespace=${NAMESPACE} -f deployment/prometheus.yaml
 kubectl apply --namespace=${NAMESPACE} -f deployment/grafana.yaml
 kubectl apply --namespace=${NAMESPACE} -f deployment/zipkin.yaml
 kubectl apply --namespace=${NAMESPACE} -f deployment/mongo.yaml
+envsubst < deployment/filebeat-elastic-hosted.yaml | kubectl apply --namespace=${NAMESPACE} -f -
 envsubst < deployment/piggymetrics.yaml | kubectl apply --namespace=${NAMESPACE} -f -

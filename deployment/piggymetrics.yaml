@@ -1,23 +1,4 @@
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: filebeat-config
-  labels:
-    app: filebeat
-data:
-  filebeat.yml: |-
-    filebeat.inputs:
-    - type: log
-      paths:
-        - /logs/messages*.log
-      json.message_key: ibm_datetime
-      json.keys_under_root: true
-      json.add_error_key: true
-
-    cloud.id: ${ELASTIC_CLOUD_ID}
-    cloud.auth: ${ELASTIC_CLOUD_AUTH}
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -70,6 +51,13 @@ spec:
         volumeMounts:
           - name: logs-volume
             mountPath: /logs
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+          requests:
+            cpu: 500m
+            memory: 500Mi
       - name: filebeat
         image: docker.elastic.co/beats/filebeat:7.6.2
         args: [
@@ -80,6 +68,7 @@ spec:
           runAsUser: 0
         resources:
           limits:
+            cpu: 200m
             memory: 200Mi
           requests:
             cpu: 100m
@@ -170,6 +159,13 @@ spec:
         volumeMounts:
           - name: logs-volume
             mountPath: /logs
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+          requests:
+            cpu: 500m
+            memory: 500Mi
       - name: filebeat
         image: docker.elastic.co/beats/filebeat:7.6.2
         args: [
@@ -180,6 +176,7 @@ spec:
           runAsUser: 0
         resources:
           limits:
+            cpu: 200m
             memory: 200Mi
           requests:
             cpu: 100m
@@ -278,6 +275,13 @@ spec:
         volumeMounts:
           - name: logs-volume
             mountPath: /logs
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+          requests:
+            cpu: 500m
+            memory: 500Mi
       - name: filebeat
         image: docker.elastic.co/beats/filebeat:7.6.2
         args: [
@@ -288,6 +292,7 @@ spec:
           runAsUser: 0
         resources:
           limits:
+            cpu: 200m
             memory: 200Mi
           requests:
             cpu: 100m
@@ -382,6 +387,13 @@ spec:
         volumeMounts:
           - name: logs-volume
             mountPath: /logs
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+          requests:
+            cpu: 500m
+            memory: 500Mi
       - name: filebeat
         image: docker.elastic.co/beats/filebeat:7.6.2
         args: [
@@ -392,6 +404,7 @@ spec:
           runAsUser: 0
         resources:
           limits:
+            cpu: 200m
             memory: 200Mi
           requests:
             cpu: 100m
