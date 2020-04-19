@@ -103,7 +103,7 @@ spec:
     spec:
       containers:
       - name: auth
-        image: jiangmaregistry.azurecr.io/auth-service:1.0
+        image: ${AUTH_IMAGE}
         imagePullPolicy: Always
         ports:
         - name: http
@@ -203,7 +203,7 @@ spec:
     spec:
       containers:
       - name: statistics
-        image: jiangmaregistry.azurecr.io/statistics-service:1.0
+        image: ${STATISTICS_IMAGE}
         imagePullPolicy: Always
         ports:
         - name: http
@@ -303,7 +303,7 @@ spec:
     spec:
       containers:
       - name: account
-        image: jiangmaregistry.azurecr.io/account-service:1.0
+        image: ${ACCOUNT_IMAGE}
         imagePullPolicy: Always
         ports:
         - name: http
@@ -411,7 +411,7 @@ spec:
     spec:
       containers:
       - name: gateway
-        image: jiangmaregistry.azurecr.io/gateway:1.0
+        image: ${GATEWAY_IMAGE}
         imagePullPolicy: Always
         ports:
         - name: http
