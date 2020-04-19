@@ -35,3 +35,4 @@ gateway/src/main/liberty/config/resources/security/keystore.jceks
 shared-keystore/src/main/resources/keystore.jceks
 account-service/src/main/liberty/config/resources/security/keystore.jceks
 statistics-service/src/main/liberty/config/resources/security/keystore.jceks
+kubernetes.yaml
