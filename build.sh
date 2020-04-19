@@ -1,13 +1,14 @@
 #!/bin/sh
 
-acrName=$1
+keyStorePass=$1
+acrName=$2
 acrServer=${acrName}.azurecr.io
-clean=$2
+clean=$3
 
 if [ "$clean" = clean ]; then
-    mvn clean install package
+    mvn clean install package -DkeyStorePass=${keyStorePass}
 else
-    mvn install package
+    mvn install package -DkeyStorePass=${keyStorePass}
 fi
 
 docker rmi gateway:1.0
