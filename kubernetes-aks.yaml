@@ -144,11 +144,6 @@ spec:
           "-c", "/etc/filebeat.yml",
           "-e",
         ]
-        env:
-        - name: ELASTIC_CLOUD_ID
-          value: Elasticsearch-service-test:ZWFzdHVzMi5henVyZS5lbGFzdGljLWNsb3VkLmNvbTo5MjQzJDlmMzE5NmU2OTY4MzQ0MzNhMzkyOWUzYjE2MzkxY2I4JDlhNDNmZmE4MDQzMjQzMmI4NTlmYWVhNzgwZmQ4Mzc4
-        - name: ELASTIC_CLOUD_AUTH
-          value: elastic:CBHzsMyrJKcuizu2EW3mbCBX
         securityContext:
           runAsUser: 0
         resources:
@@ -249,11 +244,6 @@ spec:
           "-c", "/etc/filebeat.yml",
           "-e",
         ]
-        env:
-        - name: ELASTIC_CLOUD_ID
-          value: Elasticsearch-service-test:ZWFzdHVzMi5henVyZS5lbGFzdGljLWNsb3VkLmNvbTo5MjQzJDlmMzE5NmU2OTY4MzQ0MzNhMzkyOWUzYjE2MzkxY2I4JDlhNDNmZmE4MDQzMjQzMmI4NTlmYWVhNzgwZmQ4Mzc4
-        - name: ELASTIC_CLOUD_AUTH
-          value: elastic:CBHzsMyrJKcuizu2EW3mbCBX
         securityContext:
           runAsUser: 0
         resources:
@@ -362,11 +352,6 @@ spec:
           "-c", "/etc/filebeat.yml",
           "-e",
         ]
-        env:
-        - name: ELASTIC_CLOUD_ID
-          value: Elasticsearch-service-test:ZWFzdHVzMi5henVyZS5lbGFzdGljLWNsb3VkLmNvbTo5MjQzJDlmMzE5NmU2OTY4MzQ0MzNhMzkyOWUzYjE2MzkxY2I4JDlhNDNmZmE4MDQzMjQzMmI4NTlmYWVhNzgwZmQ4Mzc4
-        - name: ELASTIC_CLOUD_AUTH
-          value: elastic:CBHzsMyrJKcuizu2EW3mbCBX
         securityContext:
           runAsUser: 0
         resources:
@@ -471,11 +456,6 @@ spec:
           "-c", "/etc/filebeat.yml",
           "-e",
         ]
-        env:
-        - name: ELASTIC_CLOUD_ID
-          value: Elasticsearch-service-test:ZWFzdHVzMi5henVyZS5lbGFzdGljLWNsb3VkLmNvbTo5MjQzJDlmMzE5NmU2OTY4MzQ0MzNhMzkyOWUzYjE2MzkxY2I4JDlhNDNmZmE4MDQzMjQzMmI4NTlmYWVhNzgwZmQ4Mzc4
-        - name: ELASTIC_CLOUD_AUTH
-          value: elastic:CBHzsMyrJKcuizu2EW3mbCBX
         securityContext:
           runAsUser: 0
         resources:
