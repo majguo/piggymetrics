@@ -42,7 +42,7 @@
                   <id>createKeystore</id>
                   <phase>generate-resources</phase>
                   <configuration>
-                    <keypass>secret</keypass>
+                    <keypass>${keystore.pass}</keypass>
                     <keyalg>RSA</keyalg>
                     <keysize>2048</keysize>
                     <sigalg>SHA256withRSA</sigalg>
@@ -69,8 +69,8 @@
               </executions>
               <!-- Global configuration for the keytool plugin -->
               <configuration>
-                <keystore>${basedir}/src/main/resources/keystore.jceks</keystore>
-                <storepass>secret</storepass>
+                <keystore>${basedir}/src/main/resources/${keystore.name}</keystore>
+                <storepass>${keystore.pass}</storepass>
                 <storetype>jceks</storetype>
               </configuration>
             </plugin>

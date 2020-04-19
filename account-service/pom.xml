@@ -91,7 +91,7 @@
                       <type>jar</type>
                       <overWrite>false</overWrite>
                       <outputDirectory>${basedir}/src/main/liberty/config/resources/security</outputDirectory>
-                      <includes>keystore.jceks</includes>
+                      <includes>${keystore.name}</includes>
                     </artifact>
                   </artifactItems>
                 </configuration>
@@ -123,6 +123,10 @@
               <serverName>${final.name}</serverName>
               <bootstrapProperties>
                 <project.name>${final.name}</project.name>
+                <keystore.name>${keystore.name}</keystore.name>
+                <keystore.pass>${keystore.pass}</keystore.pass>
+                <jwt.key.name>${jwt.key.name}</jwt.key.name>
+		            <jwt.audiences>${jwt.audiences}</jwt.audiences>
                 <jwt.issuer>${jwt.issuer}</jwt.issuer>
               </bootstrapProperties>
             </configuration>

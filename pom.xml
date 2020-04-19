@@ -8,6 +8,10 @@
 	<packaging>pom</packaging>
 
 	<properties>
+		<keystore.name>keystore.jceks</keystore.name>
+		<keystore.pass>${keyStorePass}</keystore.pass>
+		<jwt.key.name>default</jwt.key.name>
+		<jwt.audiences>piggymetrics</jwt.audiences>
 		<jwt.issuer>http://piggymetrics.mp.com</jwt.issuer>
     	<version.shared.keystore>1.0-SNAPSHOT</version.shared.keystore>
 		<jnosql.version>0.0.9</jnosql.version>

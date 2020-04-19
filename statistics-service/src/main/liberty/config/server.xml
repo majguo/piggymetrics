@@ -35,9 +35,9 @@
           maxAge="3600" />
 
     <!-- This is the keystore that will be used by SSL and by JWT. -->
-    <keyStore id="defaultKeyStore" location="keystore.jceks" type="JCEKS" password="secret" />
+    <keyStore id="defaultKeyStore" location="${keystore.name}" type="JCEKS" password="${keystore.pass}" />
 
     <!-- The MP JWT configuration that injects the caller's JWT into a ResourceScoped bean for inspection. -->
-    <mpJwt id="jwtUserConsumer" keyName="default" audiences="piggymetrics" issuer="${jwt.issuer}"/>
+    <mpJwt id="jwtUserConsumer" keyName="${jwt.key.name}" audiences="${jwt.audiences}" issuer="${jwt.issuer}"/>
 
 </server>
