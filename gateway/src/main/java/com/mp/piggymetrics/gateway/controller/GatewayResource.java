@@ -52,7 +52,7 @@ public class GatewayResource {
     @PUT
     @Path("accounts/current")
     @RolesAllowed({ "user", "admin" })
-    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response updateCurrent(Account update) {
     	return accountClient.updateCurrent(update);
     }
