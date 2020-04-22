@@ -1,8 +1,7 @@
 #!/bin/sh
 
 clusterContext=$1
-acrName=$2
-acrServer=${acrName}
+acrServer=$2
 elasticCloudId=$3
 elasticCloudUsername=$4
 elasticCloudPassword=$5
