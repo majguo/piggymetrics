@@ -2,7 +2,7 @@
 
 clusterContext=$1
 acrName=$2
-acrServer=${acrName}.azurecr.io
+acrServer=${acrName}
 elasticCloudId=$3
 elasticCloudUsername=$4
 elasticCloudPassword=$5

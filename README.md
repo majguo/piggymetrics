@@ -45,5 +45,5 @@ It's a demo application for Open Liberty MicroProfile, which references the foll
  ```
  ### Deploy and run containerized applications on AKS
  ```
- ./deploy.sh <cluster-name> <registry-name>
+ ./deploy.sh <cluster-name> <registry-server-name>
  ```
