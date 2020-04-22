@@ -26,3 +26,24 @@ It's a demo application for Open Liberty MicroProfile, which references the foll
 - ELK for log aggregation & analysis
 
 ## Deploy and run on AKS (Azure Kubernetes Service) cluster
+### Prerequisites
+ - Register an [Azure subscription](https://azure.microsoft.com/en-us/)
+ - Install [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
+ - Install Maven
+ - Install `envsubst` utility
+ ### Create AKS cluster & Azure Container Registry
+ ```
+ az login
+ az group create -l eastus -n <rersource-group-name>
+ az aks create -g <rersource-group-name> -n <cluster-name> --service-principal <service-principal-id> --client-secret <client-secret>
+ az aks get-credentials -g <rersource-group-name> -n <cluster-name> --overwrite-existing
+ az acr create -g <rersource-group-name> -n <registry-name> --sku Basic --admin-enabled
+ ```
+ ### Build images
+ ```
+ ./build.sh <key-store-password> <registry-name> clean
+ ```
+ ### Deploy and run containerized applications on AKS
+ ```
+ ./deploy.sh <cluster-name> <registry-name>
+ ```
