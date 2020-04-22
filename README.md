@@ -28,6 +28,7 @@ It's a demo application for Open Liberty MicroProfile, which references the foll
 ## Run it on AKS (Azure Kubernetes Service) cluster
 ### Prerequisites
  - Register an [Azure subscription](https://azure.microsoft.com/en-us/)
+ - [Create service principals for AKS](https://docs.microsoft.com/en-us/azure/aks/kubernetes-service-principal#manually-create-a-service-principal)
  - Install [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
  - Install Maven
  - Install `envsubst` utility
