@@ -25,7 +25,7 @@ It's a demo application for Open Liberty MicroProfile, which references the foll
 - Prometheus/Grafana for metric collection/visualization
 - ELK for log aggregation & analysis
 
-## Deploy and run on AKS (Azure Kubernetes Service) cluster
+## Run it on AKS (Azure Kubernetes Service) cluster
 ### Prerequisites
  - Register an [Azure subscription](https://azure.microsoft.com/en-us/)
  - Install [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
