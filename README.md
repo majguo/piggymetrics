@@ -7,7 +7,7 @@ It's a demo application for Open Liberty MicroProfile, which references the foll
  - [`openliberty-config-example`](https://github.com/sdaschner/openliberty-config-example/tree/prometheus-k8s): use Prometheus to collect metrics data of micro-services and get them visualized/monitored in Grafana dashboard
 
 ## Technologies used
-- MicroProfile 3.2 
+- Eclipse MicroProfile 3.2 
   - Config (gateway, auth-service, account-service, statistics-service)
   - Fault Tolerance (statistics-service)
   - Health Checks (gateway, auth-service, account-service, statistics-service)
@@ -21,6 +21,8 @@ It's a demo application for Open Liberty MicroProfile, which references the foll
   - CDI (gateway, auth-service, account-service, statistics-service)
 - Java EE 8
   - Security (auth-service)
+- Eclipse JNoSQL
+  - Artemis (auth-service, account-service, statistics-service)
 - Zipkin for distributed tracing
 - Prometheus/Grafana for metric collection/visualization
 - ELK for log aggregation & analysis
