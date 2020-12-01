@@ -9,7 +9,7 @@ It's a demo application for Open Liberty MicroProfile, which references the foll
 - [`jnosql-artemis`](https://github.com/eugenp/tutorials/tree/master/persistence-modules/jnosql/jnosql-artemis): use Eclipse JNoSQL to easily interact with MongoDB
 - [`openliberty-config-example`](https://github.com/sdaschner/openliberty-config-example/tree/prometheus-k8s): use Prometheus to collect metrics data of micro-services and get them visualized/monitored in Grafana dashboard
 
-Note: The notification service from the original [`piggymetrics`](https://github.com/sqshq/piggymetrics) project is not ported yet, due to the time limitation. This is will be implemented when time permits in the future.
+Note: The notification service from the original [`piggymetrics`](https://github.com/sqshq/piggymetrics) project is not ported yet, due to the time limitation. This will be implemented when time permits in the future.
 
 ## Technologies used
 
