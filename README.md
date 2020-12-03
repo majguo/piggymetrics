@@ -51,6 +51,7 @@ az group create -l eastus -n <rersource-group-name>
 az aks create -g <rersource-group-name> -n <cluster-name> --service-principal <service-principal-id> --client-secret <client-secret>
 az aks get-credentials -g <rersource-group-name> -n <cluster-name> --overwrite-existing
 az acr create -g <rersource-group-name> -n <registry-name> --sku Basic --admin-enabled
+echo "registry-server-name: $(az acr show -n <registry-name> --query loginServer | tr -d '"')"
 ```
 
 ### Build images
