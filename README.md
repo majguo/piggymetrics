@@ -63,7 +63,7 @@ echo "registry-server-name: $(az acr show -n <registry-name> --query loginServer
 ### Deploy and run containerized applications on AKS
 
 ```bash
-./deploy.sh <cluster-name> <registry-server-name>
+./deploy.sh <registry-server-name>
 ```
 
 ## Live demo

@@ -1,10 +1,9 @@
 #!/bin/sh
 
-clusterContext=$1
-acrServer=$2
-elasticCloudId=$3
-elasticCloudUsername=$4
-elasticCloudPassword=$5
+acrServer=$1
+elasticCloudId=$2
+elasticCloudUsername=$3
+elasticCloudPassword=$4
 
 export AUTH_IMAGE=${acrServer}/auth-service:1.0
 export STATISTICS_IMAGE=${acrServer}/statistics-service:1.0
@@ -12,7 +11,6 @@ export ACCOUNT_IMAGE=${acrServer}/account-service:1.0
 export GATEWAY_IMAGE=${acrServer}/gateway:1.0
 export NAMESPACE=piggymetrics
 
-kubectl config use-context ${clusterContext}
 kubectl create namespace ${NAMESPACE}
 
 envsubst < deployment/prometheus-rbac.yaml | kubectl apply --namespace=${NAMESPACE} -f -
