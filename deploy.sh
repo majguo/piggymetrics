@@ -26,6 +26,7 @@ if [ ! -z "$elasticCloudId" ] && [ ! -z "$elasticCloudUsername" ] && [ ! -z "$el
     export ELASTIC_CLOUD_AUTH=${elasticCloudUsername}:${elasticCloudPassword}
     envsubst < deployment/filebeat-elastic-hosted.yaml | kubectl apply --namespace=${NAMESPACE} -f -
 else
+    kubectl apply -f https://download.elastic.co/downloads/eck/1.0.1/all-in-one.yaml
     export ELASTIC_NAME=quickstart
     envsubst < deployment/elasticsearch.yaml | kubectl apply --namespace=${NAMESPACE} -f -
     envsubst < deployment/kibana.yaml | kubectl apply --namespace=${NAMESPACE} -f -
