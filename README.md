@@ -46,26 +46,46 @@ Note: The notification service from the original [`piggymetrics`](https://github
 ### Create AKS cluster & Azure Container Registry
 
 ```bash
+export RESOURCE_GROUP_NAME=<resource-group-name>
+export CLUSTER_NAME=<cluster-name>
+export SERVICE_PRINCIPAL_ID=<service-principal-id>
+export CLIENT_SECRET=<client-secret>
+export REGISTRY_NAME=<registry-name>
 az login
-az group create -l eastus -n <rersource-group-name>
-az aks create -g <rersource-group-name> -n <cluster-name> --service-principal <service-principal-id> --client-secret <client-secret>
-az aks get-credentials -g <rersource-group-name> -n <cluster-name> --overwrite-existing
-az acr create -g <rersource-group-name> -n <registry-name> --sku Basic --admin-enabled
-echo "registry-server-name: $(az acr show -n <registry-name> --query loginServer | tr -d '"')"
+az group create -l eastus -n $RESOURCE_GROUP_NAME
+az aks create -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME --service-principal $SERVICE_PRINCIPAL_ID --client-secret $CLIENT_SECRET --generate-ssh-keys
+az aks get-credentials -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME --overwrite-existing
+az acr create -g $RESOURCE_GROUP_NAME -n $REGISTRY_NAME --sku Basic --admin-enabled
+export REGISTRY_SERVER=$(az acr show -n $REGISTRY_NAME --query loginServer | tr -d '"')
 ```
 
-### Build images
+### Generate images
 
 ```bash
-./build.sh <key-store-password> <registry-name> clean
+export KEYSTORE_PASSWORD=<key-store-password>
+./build.sh $KEYSTORE_PASSWORD $REGISTRY_NAME clean
 ```
 
 ### Deploy and run containerized applications on AKS
 
 ```bash
-./deploy.sh <registry-server-name>
+./deploy.sh $REGISTRY_SERVER
 ```
 
-## Live demo
+### Live demo
 
-See live demo video from [this link](./media/PiggyMetrics_on_Open_Liberty.mp4).
+See live demo video from [this link](./media/PiggyMetrics_on_Open_Liberty.mp4) to understand how to visit different web consoles, including Swagger UI, PiggyMetrics web console, Zipkin web console, Grafana web console and Kibaba web console.
+
+## Cleanup
+
+### Delete Piggy Metrics related resources
+
+```bash
+kubectl delete namespace piggymetrics
+```
+
+### Delete ACR & AKS
+
+```bash
+az group delete -n $RESOURCE_GROUP_NAME
+```
