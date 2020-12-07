@@ -1,9 +1,9 @@
 #!/bin/sh
 
 keyStorePass=$1
-acrName=$2
-acrServer=${acrName}.azurecr.io
-clean=$3
+acrServer=$2
+acrName=$3
+clean=$4
 
 if [ "$clean" = clean ]; then
     mvn clean install package -DkeyStorePass=${keyStorePass}
@@ -31,7 +31,9 @@ docker tag auth-service:1.0 ${acrServer}/auth-service:1.0
 docker tag account-service:1.0 ${acrServer}/account-service:1.0
 docker tag statistics-service:1.0 ${acrServer}/statistics-service:1.0
 
+# Log into Azure Container Registry
 az acr login -n ${acrName}
+
 docker push ${acrServer}/gateway:1.0
 docker push ${acrServer}/auth-service:1.0
 docker push ${acrServer}/account-service:1.0

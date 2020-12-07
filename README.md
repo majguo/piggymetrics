@@ -63,7 +63,7 @@ export REGISTRY_SERVER=$(az acr show -n $REGISTRY_NAME --query loginServer | tr 
 
 ```bash
 export KEYSTORE_PASSWORD=<key-store-password>
-./build.sh $KEYSTORE_PASSWORD $REGISTRY_NAME clean
+./build.sh $KEYSTORE_PASSWORD $REGISTRY_SERVER $REGISTRY_NAME clean
 ```
 
 ### Deploy and run containerized applications on AKS
