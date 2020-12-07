@@ -28,6 +28,12 @@ else
     export ELASTIC_NAME=quickstart
     envsubst < deployment/elasticsearch.yaml | kubectl apply --namespace=${NAMESPACE} -f -
     envsubst < deployment/kibana.yaml | kubectl apply --namespace=${NAMESPACE} -f -
+    kubectl get secret --namespace=${NAMESPACE} ${ELASTIC_NAME}-es-elastic-user
+    while [ $? -ne 0 ]
+    do
+        sleep 10
+        kubectl get secret --namespace=${NAMESPACE} ${ELASTIC_NAME}-es-elastic-user
+    done
     export ELASTICSEARCH_PASSWORD=$(kubectl get secret --namespace=${NAMESPACE} ${ELASTIC_NAME}-es-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode)
     export ELASTICSEARCH_USERNAME=elastic
     export ELASTICSEARCH_HOST=${ELASTIC_NAME}-es-http
