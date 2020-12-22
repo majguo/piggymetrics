@@ -74,7 +74,7 @@ export KEYSTORE_PASSWORD=<key-store-password>
 
 ### Live demo
 
-See live demo video from [this link](./media/PiggyMetrics_on_Open_Liberty.mp4) to understand how to visit different web consoles, including Swagger UI, PiggyMetrics web console, Zipkin web console, Grafana web console and Kibaba web console.
+See live demo video from [this link](./media/PiggyMetrics_on_Open_Liberty.mp4) to understand how to visit different web consoles, including Swagger UI, PiggyMetrics web console, Zipkin web console, Grafana web console ([Dashboard 11706](https://grafana.com/grafana/dashboards/11706)) and Kibaba web console.
 
 ## Cleanup
 
