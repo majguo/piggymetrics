@@ -1,14 +1,14 @@
 #!/bin/sh
 
-acrServer=$1
+registryServer=$1
 elasticCloudId=$2
 elasticCloudUsername=$3
 elasticCloudPassword=$4
 
-export AUTH_IMAGE=${acrServer}/auth-service:1.0
-export STATISTICS_IMAGE=${acrServer}/statistics-service:1.0
-export ACCOUNT_IMAGE=${acrServer}/account-service:1.0
-export GATEWAY_IMAGE=${acrServer}/gateway:1.0
+export AUTH_IMAGE=${registryServer}/auth-service:1.0
+export STATISTICS_IMAGE=${registryServer}/statistics-service:1.0
+export ACCOUNT_IMAGE=${registryServer}/account-service:1.0
+export GATEWAY_IMAGE=${registryServer}/gateway:1.0
 export NAMESPACE=piggymetrics
 
 kubectl create namespace ${NAMESPACE}
